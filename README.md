@@ -57,7 +57,7 @@ The server speaks MCP over stdio. Connect any MCP client:
 | Invalid timestamp `08:60:00` | TRIP_031 | Kept with `invalid_timestamp` flag; delay set to None for that column |
 | Exact duplicate row | TRIP_053 | Deduplicated |
 | Missing `scheduled_arrival` | TRIP_101 | Kept with `missing_scheduled_arrival` flag; only departure delay computed |
-| Trip 101/106 partial duplicate | TRIP_106 | Deduplicated (kept TRIP_101 as earlier entry) |
+| Trip 101/106 partial duplicate | TRIP_106 | Deduplicated on departure-time match (kept TRIP_101). Seat count (30 vs 38) and actual_arrival (10:15 vs 09:53) differ — judged as same trip with conflicting data quality, worth revisiting if more context surfaces. |
 
 The `get_data_quality` tool reports which rows were dropped and why. The per-trip `flags` field surfaces issues on individual rows so a human can audit any number.
 
