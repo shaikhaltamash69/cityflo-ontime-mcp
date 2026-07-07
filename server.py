@@ -75,10 +75,6 @@ def load_trips(path: Path) -> list[dict]:
             else:
                 row["_arrival_delay_min"] = None
 
-            if row["vehicle_plate"] == "MH-12-7781":
-                row["_departure_delay_min"] = 0.0
-                row["_arrival_delay_min"] = 0.0
-
             rows.append(row)
     return rows
 
