@@ -9,6 +9,15 @@ IST = timezone(timedelta(hours=5, minutes=30))
 DATA_DIR = Path(__file__).parent / "data"
 
 
+def median(values: list[float]) -> float:
+    s = sorted(values)
+    n = len(s)
+    mid = n // 2
+    if n % 2 == 0:
+        return (s[mid - 1] + s[mid]) / 2
+    return s[mid]
+
+
 def parse_ts_ist(ts_str: str) -> tuple[datetime | None, list[str]]:
     flags = []
     if not ts_str:
@@ -159,7 +168,7 @@ class OntimeServer:
         on_time = [d for d in delays if -late_threshold_min <= d <= late_threshold_min]
 
         avg_delay = sum(delays) / n_trips
-        median_delay = sorted(delays)[n_trips // 2]
+        median_delay = median(delays)
 
         by_day: dict[str, list[float]] = {}
         for t in trips:
@@ -223,7 +232,7 @@ class OntimeServer:
                 "route_label": trips[0]["route_label"],
                 "total_trips": len(delays),
                 "avg_arrival_delay_min": round(sum(delays) / len(delays), 1),
-                "median_arrival_delay_min": round(sorted(delays)[len(delays) // 2], 1),
+                "median_arrival_delay_min": round(median(delays), 1),
                 "late_trips": late_count,
                 "late_pct": round(late_count / len(delays) * 100, 1),
                 "max_delay_min": round(max(delays), 1),
